@@ -1,4 +1,4 @@
-const randomNumber = getRandomInt(100);
+const randomNumber = getRandomInt(898);
 
 function getRandomInt(range) {
     return Math.floor(Math.random() * (range));
