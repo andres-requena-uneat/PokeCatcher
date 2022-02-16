@@ -2,7 +2,7 @@ let lvl = 1;
 const getNewPokemon = () => {
     const randomNumber = getRandomInt(898);
     const shinyChance = getRandomInt(4096);
-    
+
 
     const url = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
     fetch(url, {
@@ -16,39 +16,34 @@ const getNewPokemon = () => {
             const pokemonDescription = document.getElementsByClassName("card-description")[0];
             const pokemonAbility = document.getElementsByClassName("card-hability")[0];
             const pokemonType = document.getElementsByClassName("card-type")[0];
+            const pokemonType2 = document.getElementsByClassName("card-type2")[0];
             const pokemonImage = document.getElementById("card-img-top");
 
             let trainerLevel = document.getElementsByClassName("lvl")[0];
             trainerLevel.textContent = lvl;
-            
+
             pokemonName.textContent = formatFirstLetter(data.name);
             pokemonDescription.textContent = "Base Experience: " + data.base_experience;
             pokemonAbility.textContent = "Primary Ability: " + formatFirstLetter(data.abilities[0].ability.name);
             pokemonType.textContent = "Type: " + formatFirstLetter(data.types[0].type.name);
-            
-            let pokemonType2;
-            if(data.types.length == 2){
-                pokemonType2 = document.getElementsByClassName("card-type2")[0];
-                pokemonType2.textContent = "/" + formatFirstLetter(data.types[1].type.name);
-            }
-            else{
-                pokemonType2 = document.getElementsByClassName("card-type2")[0];
-                pokemonType2.textContent = "";
-            }
-            
-            
-            if(shinyChance == 1){
+            pokemonType2.textContent = getPokemonTypes(data);
+
+            getPokemonTypes();
+
+
+            if (shinyChance == 1) {
                 pokemonImage.src = data.sprites.other["home"].front_shiny;
-                
-            }
-            else{
+
+            } else {
                 pokemonImage.src = data.sprites.other["home"].front_default;
             }
-            pokemonImage.style.backgroundImage = "url(assets/backgrounds/"+data.types[0].type.name+".jpg)"
-            
-            
+            pokemonImage.style.backgroundImage = "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)"
 
-            
+
+
+
+
+
         });
 }
 
@@ -56,7 +51,15 @@ function formatFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
+function getPokemonTypes(data) {
+    if (data.types.length == 2) {
+        return "/" + formatFirstLetter(data.types[1].type.name);
+    } else {
+        pokemonType2.textContent = "";
+    }
+}
+
 function getRandomInt(range) {
-    return Math.floor((Math.random() * (range))+1);
+    return Math.floor((Math.random() * (range)) + 1);
 }
 getNewPokemon()
