@@ -22,29 +22,23 @@ const getNewPokemon = () => {
             let trainerLevel = document.getElementsByClassName("lvl")[0];
             trainerLevel.textContent = lvl;
 
+            pokemonImage.style.backgroundImage = "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)"
+            pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, pokemonImage, data);
             pokemonName.textContent = formatFirstLetter(data.name);
             pokemonDescription.textContent = "Base Experience: " + data.base_experience;
             pokemonAbility.textContent = "Primary Ability: " + formatFirstLetter(data.abilities[0].ability.name);
             pokemonType.textContent = "Type: " + formatFirstLetter(data.types[0].type.name);
             pokemonType2.textContent = getPokemonTypes(data);
 
-            getPokemonTypes();
-
-
-            if (shinyChance == 1) {
-                pokemonImage.src = data.sprites.other["home"].front_shiny;
-
-            } else {
-                pokemonImage.src = data.sprites.other["home"].front_default;
-            }
-            pokemonImage.style.backgroundImage = "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)"
-
-
-
-
-
-
         });
+}
+
+function getPokemonImageChekingIfShiny(shinyChance, pokemonImage, data) {
+    if (shinyChance == 1) {
+        return data.sprites.other["home"].front_shiny;
+    } else {
+        return data.sprites.other["home"].front_default;
+    }
 }
 
 function formatFirstLetter(name) {
