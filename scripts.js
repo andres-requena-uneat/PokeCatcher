@@ -6,30 +6,22 @@ function getRandomInt(range) {
 
 console.log(randomNumber)
 
-
-fetch(url, {
-        method: 'get',
-    })
-    .then(response => response.json())
-    .then(data => {
+const getNewPokemon = () => {
+    const url = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
+    fetch(url, {
+            method: 'get',
+        })
+        .then(response => response.json())
+        .then(data => {
             console.log(data.name, data.sprites.other["official-artwork"].front_default)
 
-            const getNewPokemon = () => {
-                const url = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
-                fetch(url, {
-                        method: 'get',
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data.name, data.sprites.other["official-artwork"].front_default)
+            const pokemonName = document.getElementsByClassName("card-title")[0];
+            const pokemonImage = document.getElementById("card-img-top");
 
-                        const pokemonName = document.getElementsByClassName("card-title")[0];
-                        const pokemonImage = document.getElementById("card-img-top");
+            pokemonName.textContent = data.name;
+            pokemonImage.src = data.sprites.other["official-artwork"].front_default;
 
-                        pokemonName.textContent = data.name;
-                        pokemonImage.src = data.sprites.other["official-artwork"].front_default;
+        });
+}
 
-                    });
-            }
-
-            getNewPokemon()
+getNewPokemon()
