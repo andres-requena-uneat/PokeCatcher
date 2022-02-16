@@ -6,7 +6,6 @@
     ;
 }
 
-
 @font-face {
     font-family: myFirstFont;
     src: url(assets/sen-regular.woff);
@@ -57,9 +56,7 @@ div {
     min-height:180px;
 
 }
-div.col{
-    position: relative;
-}
+
 .btn{
     position: relative;
     left: 50%;
@@ -91,4 +88,34 @@ div.col{
     height:34px;
     width:34px;
     filter:invert();
+}
+
+.expbar{
+    position:fixed;
+    top:50px;
+    left:50px;
+    display:inline;
+}
+.bar{
+    height: 10px;
+    width: 304px;
+    background-color:gray;
+    border-radius:15px;
+    border:2px solid black;
+    top:20px;
+    left:50px;
+    z-index: 1;
+}
+.exp{
+    margin-top: -8.5px;
+    margin-left:2px;
+    background-color: #0f0;
+    border-radius:15px;
+    height: 6.9px;
+    width: calc(300px - 100px);
+    z-index: 2;
+}
+
+.flex{
+    display: flex;
 }

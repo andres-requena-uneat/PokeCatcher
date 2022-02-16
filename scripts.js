@@ -1,4 +1,4 @@
-const gre = "#0F0";
+let lvl = 1;
 const getNewPokemon = () => {
     const randomNumber = getRandomInt(898);
     const shinyChance = getRandomInt(4096);
@@ -17,6 +17,9 @@ const getNewPokemon = () => {
             const pokemonAbility = document.getElementsByClassName("card-hability")[0];
             const pokemonType = document.getElementsByClassName("card-type")[0];
             const pokemonImage = document.getElementById("card-img-top");
+
+            let trainerLevel = document.getElementsByClassName("lvl")[0];
+            trainerLevel.textContent = lvl;
             
             pokemonName.textContent = formatFirstLetter(data.name);
             pokemonDescription.textContent = "Base Experience: " + data.base_experience;
