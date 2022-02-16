@@ -1,6 +1,9 @@
 :root{
     --yellow: #F5D45C;
     --box_shadow: rgba(0, 0, 0, 0.25);
+    --catch_red:#E33A3A;
+    --run_blue:#7696E9;
+    ;
 }
 
 @font-face {
@@ -55,8 +58,32 @@ div.col{
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
+    height: 70px;
+    width: 195px;
+    margin-top: 15px;
+    color: white;
+    line-height: 24px;
+    font-size:20px;
+    display:inline;
+    transition: 500ms;
+}
+.btn.catch{
+    background-color: var(--catch_red);
+}
+.btn:hover{
+    color: white;
+    box-shadow: 0px 4px 30px var(--box_shadow);
+}
+
+.btn.run{
+    background-color: var(--run_blue);
 }
 
 .card-type-container{
     display: flex;
+}
+.button-icon{
+    height:34px;
+    width:34px;
+    filter:invert();
 }
