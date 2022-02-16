@@ -1,7 +1,6 @@
 const getNewPokemon = () => {
     const randomNumber = getRandomInt(898);
-
-    console.log(randomNumber)
+    const shinyChance = getRandomInt(4096);
 
     const url = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
     fetch(url, {
@@ -16,15 +15,30 @@ const getNewPokemon = () => {
             const pokemonHability = document.getElementsByClassName("card-hability")[0];
             const pokemonType = document.getElementsByClassName("card-type")[0];
             const pokemonImage = document.getElementById("card-img-top");
-
+            
             pokemonName.textContent = formatFirstLetter(data.name);
             pokemonDescription.textContent = "Base Experience: " + data.base_experience;
             pokemonHability.textContent = formatFirstLetter(data.abilities[0].ability.name);
             pokemonType.textContent = formatFirstLetter(data.types[0].type.name);
+            
+            let pokemonType2;
+            if(data.types.length == 2){
+                pokemonType2 = document.getElementsByClassName("card-type2")[0];
+                pokemonType2.textContent = "/" + formatFirstLetter(data.types[1].type.name);
+            }
+            else{
+                pokemonType2 = document.getElementsByClassName("card-type2")[0];
+                pokemonType2.textContent = "";
+            }
+            
 
-            pokemonImage.src = data.sprites.other["official-artwork"].front_default;
-
-
+            if(shinyChance == 1){
+                pokemonImage.src = data.sprites.other["home"].front_shiny;
+            }
+            else{
+                pokemonImage.src = data.sprites.other["home"].front_default;
+            }
+            
         });
 }
 
@@ -33,6 +47,6 @@ function formatFirstLetter(name) {
 }
 
 function getRandomInt(range) {
-    return Math.floor(Math.random() * (range));
+    return Math.floor((Math.random() * (range))+1);
 }
 getNewPokemon()
