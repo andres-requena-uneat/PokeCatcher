@@ -1,6 +1,8 @@
+const gre = "#0F0";
 const getNewPokemon = () => {
     const randomNumber = getRandomInt(898);
     const shinyChance = getRandomInt(4096);
+    
 
     const url = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
     fetch(url, {
@@ -12,13 +14,13 @@ const getNewPokemon = () => {
 
             const pokemonName = document.getElementsByClassName("card-title")[0];
             const pokemonDescription = document.getElementsByClassName("card-description")[0];
-            const pokemonHability = document.getElementsByClassName("card-hability")[0];
+            const pokemonAbility = document.getElementsByClassName("card-hability")[0];
             const pokemonType = document.getElementsByClassName("card-type")[0];
             const pokemonImage = document.getElementById("card-img-top");
             
             pokemonName.textContent = formatFirstLetter(data.name);
             pokemonDescription.textContent = "Base Experience: " + data.base_experience;
-            pokemonHability.textContent = "Primary Ability: " + formatFirstLetter(data.abilities[0].ability.name);
+            pokemonAbility.textContent = "Primary Ability: " + formatFirstLetter(data.abilities[0].ability.name);
             pokemonType.textContent = "Type: " + formatFirstLetter(data.types[0].type.name);
             
             let pokemonType2;
@@ -31,13 +33,18 @@ const getNewPokemon = () => {
                 pokemonType2.textContent = "";
             }
             
-
+            
             if(shinyChance == 1){
                 pokemonImage.src = data.sprites.other["home"].front_shiny;
+                
             }
             else{
                 pokemonImage.src = data.sprites.other["home"].front_default;
             }
+            pokemonImage.style.backgroundImage = "url(assets/backgrounds/"+data.types[0].type.name+".jpg)"
+            
+            
+
             
         });
 }
