@@ -15,10 +15,10 @@ const getNewPokemon = () => {
         .then(data => {
             console.log(data.name, data.sprites.other["official-artwork"].front_default)
 
-            const pokemonName = document.getElementsByClassName("card-title")[0];
+            let pokemonName = document.getElementsByClassName("card-title")[0];
             const pokemonImage = document.getElementById("card-img-top");
 
-            pokemonName.textContent = data.name;
+            pokemonName.textContent = data.name.charAt(0).toUpperCase() + data.name.substring(1, data.name.length);
             pokemonImage.src = data.sprites.other["official-artwork"].front_default;
 
         });
