@@ -18,8 +18,8 @@ const getNewPokemon = () => {
             
             pokemonName.textContent = formatFirstLetter(data.name);
             pokemonDescription.textContent = "Base Experience: " + data.base_experience;
-            pokemonHability.textContent = formatFirstLetter(data.abilities[0].ability.name);
-            pokemonType.textContent = formatFirstLetter(data.types[0].type.name);
+            pokemonHability.textContent = "Primary Ability: " + formatFirstLetter(data.abilities[0].ability.name);
+            pokemonType.textContent = "Type: " + formatFirstLetter(data.types[0].type.name);
             
             let pokemonType2;
             if(data.types.length == 2){
