@@ -51,6 +51,7 @@ div {
     width: 400px;
     background-color:var(--yellow);
     /* border: black solid 1px; */
+    border-radius:0px 0px 30px 30px;
     border: none;
     box-shadow: 0px 15px 30px var(--box_shadow);
     min-height:180px;
