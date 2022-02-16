@@ -1,0 +1,8 @@
+.obj{
+    height: 500px;
+    width: 500px;
+    background-color:#0F0;
+    position: relative;
+    transform: translate(-50%, 100%);
+
+}
