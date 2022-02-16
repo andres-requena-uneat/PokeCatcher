@@ -1,8 +1,8 @@
-:root{
+:root {
     --yellow: #F5D45C;
     --box_shadow: rgba(0, 0, 0, 0.25);
-    --catch_red:#E33A3A;
-    --run_blue:#7696E9;
+    --catch_red: #E33A3A;
+    --run_blue: #7696E9;
     ;
 }
 
@@ -10,54 +10,54 @@
     font-family: myFirstFont;
     src: url(assets/sen-regular.woff);
 }
-  
+
 div {
     font-family: myFirstFont;
     color: black;
-    font-size:12px;
+    font-size: 12px;
 }
 
-.card{
+.card {
     width: fit-content;
     border: none;
     position: relative;
     left: 50%;
     transform: translate(-50%);
 }
-.container{
+
+.container {
     width: fit-content;
-    min-width: 500px;
+    min-width: 400px;
     /* border: black 1px solid; */
-    border:none;
+    border: none;
     justify-content: center;
     margin-top: 20px;
-    
 }
-.card-img-top{
+
+.card-img-top {
     height: 400px;
     width: 400px;
-    background-color:white;
+    background-color: white;
     /* border: black solid 1px; */
     border: none;
-    border-radius:30px 30px 0px 0px;
+    border-radius: 30px 30px 0px 0px;
     box-shadow: 0px 0px 30px var(--box_shadow);
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-size: cover;
-
 }
-.card-body{
+
+.card-body {
     height: fit-content;
     width: 400px;
-    background-color:var(--yellow);
+    background-color: var(--yellow);
     /* border: black solid 1px; */
-    border-radius:0px 0px 30px 30px;
+    border-radius: 0px 0px 30px 30px;
     border: none;
     box-shadow: 0px 15px 30px var(--box_shadow);
-    min-height:180px;
-
+    min-height: 180px;
 }
 
-.btn{
+.btn {
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
@@ -65,57 +65,62 @@ div {
     width: 195px;
     color: white;
     line-height: 24px;
-    font-size:20px;
-    display:inline;
+    font-size: 20px;
+    display: inline;
     transition: 500ms;
 }
-.btn.catch{
+
+.btn.catch {
     background-color: var(--catch_red);
 }
-.btn:hover{
+
+.btn:hover {
     color: white;
     box-shadow: 0px 4px 30px var(--box_shadow);
 }
 
-.btn.run{
+.btn.run {
     background-color: var(--run_blue);
 }
 
-.card-type-container{
+.card-type-container {
     display: flex;
 }
-.button-icon{
-    height:34px;
-    width:34px;
-    filter:invert();
+
+.button-icon {
+    height: 34px;
+    width: 34px;
+    filter: invert();
 }
 
-.expbar{
-    position:fixed;
-    top:50px;
-    left:50px;
-    display:inline;
+.expbar {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    display: inline;
 }
-.bar{
+
+.bar {
     height: 10px;
     width: 304px;
-    background-color:gray;
-    border-radius:15px;
-    border:2px solid black;
-    top:20px;
-    left:50px;
+    background-color: gray;
+    border-radius: 15px;
+    border: 2px solid black;
+    top: 20px;
+    left: 50px;
     z-index: 1;
 }
-.exp{
+
+.exp {
     margin-top: -8.5px;
-    margin-left:2px;
+    margin-left: 2px;
     background-color: #0f0;
-    border-radius:15px;
+    border-radius: 15px;
     height: 6.9px;
     width: calc(300px - 100px);
     z-index: 2;
 }
 
-.flex{
+.flex {
     display: flex;
 }
