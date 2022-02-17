@@ -106,12 +106,16 @@ function mostrar() {
 
     var transaccion = bd.transaction(["pokemon"], "readonly");
 
-    var almacen = transaccion.objectStore("pokemon");
+    var almacen = transaccion.objectStore("pokemon").getAll();
 
-    var cursor = almacen.openCursor();
-    console.log("Almacen...", almacen)
+    // var cursor = almacen.openCursor();
+    //console.log("Almacen...", almacen)
 
-    cursor.addEventListener("success", mostrarDatos, false);
+    almacen.onsuccess = function(event) {
+        console.log(event.target.result);
+    };
+
+    // cursor.addEventListener("success", mostrarDatos, false);
 
 }
 
