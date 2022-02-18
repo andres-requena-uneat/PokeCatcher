@@ -57,7 +57,7 @@ function setValuesOnHTML(data, shinyChance) {
     pokemonDescription.textContent =
         "Base Experience: " + data.base_experience;
     pokemonAbility.textContent =
-        "Primary Ability: " + formatFirstLetter(data.abilities[0].ability.name);
+        "Ability: " + formatFirstLetter(data.abilities[0].ability.name);
     pokemonType.textContent =
         "Type: " + formatFirstLetter(data.types[0].type.name);
     pokemonType2.textContent = getPokemonTypes(data);
