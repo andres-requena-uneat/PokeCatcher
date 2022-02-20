@@ -54,8 +54,7 @@ function setValuesOnHTML(data, shinyChance) {
         "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)";
     pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);
     pokemonName.textContent = formatFirstLetter(data.name);
-    pokemonDescription.textContent =
-        "Base Experience: " + data.base_experience;
+    pokemonDescription.textContent ="Base Experience: " + data.base_experience;
     pokemonAbility.textContent =
         "Ability: " + formatFirstLetter(data.abilities[0].ability.name);
     pokemonType.textContent =
