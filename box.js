@@ -82,7 +82,9 @@ function mostrar() {
         let content = `
             <div class="box-header">
                 <div class="box-name">
+                <img src='assets/images/arrow.svg' class="arrow previous"></img>
                     <p class="box-text">box 1</p>
+                    <img src='assets/images/arrow.svg' class="arrow next"></img>
                 </div>
             </div>
         
