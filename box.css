@@ -56,8 +56,10 @@ body {
     height:90px;
     width: 90px;
     display: flex;
-    align-items: center;
     background-color: white;
+    align-items: center;
+    place-items: center;
+    justify-content: center;
     border-radius:8px;
     margin: 5px;
     box-shadow: 0px 4px 30px var(--box_shadow);
