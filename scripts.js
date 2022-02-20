@@ -52,6 +52,7 @@ function setValuesOnHTML(data, shinyChance) {
     pokemonImage.style.backgroundImage =
         "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)";
     pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);
+    pokemonImage.alt = getPokemonSpriteChekingIfShiny(shinyChance, data);
     pokemonName.textContent = formatFirstLetter(data.name);
     pokemonDescription.textContent ="Base Experience: " + data.base_experience;
     pokemonAbility.textContent =
@@ -66,6 +67,14 @@ function getPokemonImageChekingIfShiny(shinyChance, data) {
         return data.sprites.other["home"].front_shiny;
     } else {
         return data.sprites.other["home"].front_default;
+    }
+}
+
+function getPokemonSpriteChekingIfShiny(shinyChance, data) {
+    if (shinyChance == 1) {
+        return data.sprites.front_shiny;
+    } else {
+        return data.sprites.front_default;
     }
 }
 
@@ -85,7 +94,7 @@ function getRandomInt(range) {
     return Math.floor(Math.random() * range + 1);
 }
 
-function agregarobjeto() {
+function agregarObjeto() {
     var transaccion = bd.transaction(["pokemon"], "readwrite");
     var almacen = transaccion.objectStore("pokemon");
 
@@ -94,6 +103,7 @@ function agregarobjeto() {
     almacen.add({
         clave: pokemonName.textContent,
         image: pokemonImage.src,
+        sprite: pokemonImage.alt,
         description: pokemonDescription.textContent,
         ability: pokemonAbility.textContent,
         type1: pokemonType.textContent,
