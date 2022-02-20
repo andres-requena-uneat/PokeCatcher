@@ -8,7 +8,7 @@ const pokemonDescription =
 const pokemonAbility = document.getElementsByClassName("card-hability")[0];
 const pokemonType = document.getElementsByClassName("card-type")[0];
 const pokemonType2 = document.getElementsByClassName("card-type2")[0];
-const trainerLevel = document.getElementsByClassName("lvl")[0];
+//const trainerLevel = document?.getElementsByClassName("lvl")[0];
 
 function iniciar() {
     getNewPokemon()
@@ -49,7 +49,6 @@ function getShowData(url, shinyChance) {
 }
 
 function setValuesOnHTML(data, shinyChance) {
-    trainerLevel.textContent = lvl;
     pokemonImage.style.backgroundImage =
         "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)";
     pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);

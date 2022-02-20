@@ -1,0 +1,65 @@
+:root {
+    --yellow: #F5D45C;
+    --box_shadow: rgba(0, 0, 0, 0.25);
+    --catch_red: #E33A3A;
+    --run_blue: #7696E9;
+    ;
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(assets/sen-regular.woff);
+}
+
+div {
+    font-family: myFirstFont;
+    color: black;
+    font-size: 12px;
+}
+
+body {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.box-pagination-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.box-pagination{
+    background: white;
+    box-shadow: 0px 4px 30px var(--box_shadow);
+}
+
+.box-pokemon{
+    display: flex;
+    flex-direction:column;
+    padding: 1rem;
+    width: 100%;
+}
+.box-pokemon-content{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+.box-list{
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;   
+    width:600px;
+    height:fit-content;
+    margin-left: 50px;
+}
+.item-box{
+    height:90px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius:8px;
+    margin: 5px;
+    box-shadow: 0px 4px 30px var(--box_shadow);
+}
+
