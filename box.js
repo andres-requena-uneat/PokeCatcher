@@ -9,7 +9,6 @@ const pokemonDescription =
     document.getElementsByClassName("card-description")[0];
 const pokemonAbility = document.getElementsByClassName("card-hability")[0];
 const pokemonType = document.getElementsByClassName("card-type")[0];
-const pokemonType2 = document.getElementsByClassName("card-type2")[0];
 
 function init () {
     var solicitud = indexedDB.open("PokemonDatabase");
@@ -30,29 +29,28 @@ function init () {
     };
 }
 function clicked (e){
-    console.log(e)
+    showCard(e)
 }
 
 function showCard(pokemon=null){
     if(pokemon){
-        pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);
-        pokemonName.textContent = formatFirstLetter(pokemon.name);
-        pokemonDescription.textContent ="Base Experience: " + pokemon.base_experience;
+        console.log(pokemon)
+        pokemonImage.src = pokemon.image
+        pokemonName.textContent = formatFirstLetter(pokemon.clave);
+        pokemonDescription.textContent = pokemon.description;
+        pokemonAbility.textContent =formatFirstLetter(pokemon.ability);
+        pokemonType.textContent = formatFirstLetter(pokemon.type1);
+    }else{
+        pokemonImage.src = "assets/"+"no-pokemon.png";
+        pokemonName.textContent = "No pokemon selected";
+        pokemonDescription.textContent ="Base Experience: " + "No pokemon selected";;
         pokemonAbility.textContent =
-            "Ability: " + formatFirstLetter(pokemon.abilities[0].ability.name);
+            "Ability: " + "No pokemon selected";
         pokemonType.textContent =
-            "Type: " + formatFirstLetter(pokemon.types[0].type.name);
-        pokemonType2.textContent = getPokemonTypes(pokemon);
+            "Type: " + "No pokemon selected";
     }
 
-    pokemonImage.src = "assets/"+"no-pokemon.png";
-    pokemonName.textContent = "No pokemon selected";
-    pokemonDescription.textContent ="Base Experience: " + "No pokemon selected";;
-    pokemonAbility.textContent =
-        "Ability: " + "No pokemon selected";
-    pokemonType.textContent =
-        "Type: " + "No pokemon selected";
-    pokemonType2.textContent = "No pokemon selected";
+   
 }
 
 function getPokemonImageChekingIfShiny(shinyChance, data) {
@@ -96,7 +94,7 @@ function mostrar() {
             if(element){
                 
                 content+=`
-                <div id="${JSON.stringify(element)}" class="item-box">
+                <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
                     <img onclick='showCard(${element})' src="${element.image}" height="60" width="60"/>
                 </div>
                 `
