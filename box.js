@@ -1,5 +1,15 @@
 var bd;
+
 const pokemonsList = document.getElementById("box-list");
+
+
+const pokemonImage = document.getElementById("card-img-top");
+const pokemonName = document.getElementsByClassName("card-title")[0];
+const pokemonDescription =
+    document.getElementsByClassName("card-description")[0];
+const pokemonAbility = document.getElementsByClassName("card-hability")[0];
+const pokemonType = document.getElementsByClassName("card-type")[0];
+const pokemonType2 = document.getElementsByClassName("card-type2")[0];
 
 function init () {
     var solicitud = indexedDB.open("PokemonDatabase");
@@ -11,6 +21,7 @@ function init () {
     solicitud.onsuccess = function(e) {
         bd = e.target.result;
         mostrar()
+        showCard(null)
     };
 
     solicitud.onupgradeneeded = function(e) {
@@ -18,8 +29,51 @@ function init () {
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
 }
+function clicked (e){
+    console.log(e)
+}
 
+function showCard(pokemon=null){
+    if(pokemon){
+        pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);
+        pokemonName.textContent = formatFirstLetter(pokemon.name);
+        pokemonDescription.textContent ="Base Experience: " + pokemon.base_experience;
+        pokemonAbility.textContent =
+            "Ability: " + formatFirstLetter(pokemon.abilities[0].ability.name);
+        pokemonType.textContent =
+            "Type: " + formatFirstLetter(pokemon.types[0].type.name);
+        pokemonType2.textContent = getPokemonTypes(pokemon);
+    }
 
+    pokemonImage.src = "assets/"+"no-pokemon.png";
+    pokemonName.textContent = "No pokemon selected";
+    pokemonDescription.textContent ="Base Experience: " + "No pokemon selected";;
+    pokemonAbility.textContent =
+        "Ability: " + "No pokemon selected";
+    pokemonType.textContent =
+        "Type: " + "No pokemon selected";
+    pokemonType2.textContent = "No pokemon selected";
+}
+
+function getPokemonImageChekingIfShiny(shinyChance, data) {
+    if (shinyChance == 1) {
+        return data.sprites.other["home"].front_shiny;
+    } else {
+        return data.sprites.other["home"].front_default;
+    }
+}
+
+function formatFirstLetter(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function getPokemonTypes(data) {
+    if (data.types.length == 2) {
+        return "/" + formatFirstLetter(data.types[1].type.name);
+    } else {
+        pokemonType2.textContent = "";
+    }
+}
 function mostrar() {
     let limit = 30
     var transaccion = bd.transaction(["pokemon"], "readonly");
@@ -32,24 +86,25 @@ function mostrar() {
         for (let index = 0; index < limit; index++) {
             const element = pokemons[index];
             if(element){
+                
                 content+=`
-                <div class="item-box">
-                    <img src="${element.image}" height="60" width="60"/>
+                <div id="${JSON.stringify(element)}" class="item-box">
+                    <img onclick='showCard(${element})' src="${element.image}" height="60" width="60"/>
                 </div>
                 `
+                
             }else{
                 content+=`
                 <div class="item-box">
                 </div>
                 `
             }
+
+            console.log(content)
         }
-
-        console.log(content)
-
         pokemonsList.innerHTML=content
     };
 }
 
-
 window.addEventListener("load", init, false);
+
