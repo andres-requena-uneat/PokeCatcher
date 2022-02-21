@@ -1,5 +1,7 @@
 var bd;
 
+let multiplier = 0;
+let pagelimit = multiplier + 30;
 const pokemonsList = document.getElementById("box-list");
 
 
@@ -10,7 +12,7 @@ const pokemonDescription =
 const pokemonAbility = document.getElementsByClassName("card-hability")[0];
 const pokemonType = document.getElementsByClassName("card-type")[0];
 
-function init () {
+function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
     solicitud.onerror = function(e) {
@@ -28,29 +30,48 @@ function init () {
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
 }
-function clicked (e){
+
+function deletepokemon(e) {
+    release(e)
+}
+
+function clicked(e) {
     showCard(e)
 }
 
-function showCard(pokemon=null){
-    if(pokemon){
-        console.log(pokemon)
+function incPage() {
+    multiplier++;
+    pagelimit = multiplier * 30 + 30;
+    mostrar();
+
+}
+
+function decPage() {
+    multiplier--;
+    pagelimit = multiplier * 30 + 30;
+    mostrar();
+
+}
+
+function showCard(pokemon = null) {
+    if (pokemon) {
+        console.log(pokemon.clave)
         pokemonImage.src = pokemon.image
         pokemonName.textContent = formatFirstLetter(pokemon.clave);
         pokemonDescription.textContent = pokemon.description;
-        pokemonAbility.textContent =formatFirstLetter(pokemon.ability);
+        pokemonAbility.textContent = formatFirstLetter(pokemon.ability);
         pokemonType.textContent = formatFirstLetter(pokemon.type1);
-    }else{
-        pokemonImage.src = "assets/"+"no-pokemon.png";
+    } else {
+        pokemonImage.src = "assets/" + "no-pokemon.png";
         pokemonName.textContent = "No pokemon selected";
-        pokemonDescription.textContent ="Base Experience: " + "No pokemon selected";;
+        pokemonDescription.textContent = "Base Experience: " + "No pokemon selected";;
         pokemonAbility.textContent =
             "Ability: " + "No pokemon selected";
         pokemonType.textContent =
             "Type: " + "No pokemon selected";
     }
 
-   
+
 }
 
 function getPokemonImageChekingIfShiny(shinyChance, data) {
@@ -72,37 +93,55 @@ function getPokemonTypes(data) {
         pokemonType2.textContent = "";
     }
 }
+
+function release(pokemon) {
+    console.log(pokemon)
+    var transaccion = bd.transaction(["pokemon"], "readwrite")
+    var almacen = transaccion.objectStore("pokemon").delete(pokemon.clave)
+    console.log("Deleted");
+    mostrar()
+}
+
 function mostrar() {
-    let limit = 30
+
     var transaccion = bd.transaction(["pokemon"], "readonly");
     var almacen = transaccion.objectStore("pokemon").getAll();
 
     almacen.onsuccess = function(event) {
+
         let pokemons = event.target.result
         let content = `
             <div class="box-header">
                 <div class="box-name">
-                <img src='assets/images/arrow.svg' class="arrow previous"></img>
-                    <p class="box-text">box 1</p>
-                    <img src='assets/images/arrow.svg' class="arrow next"></img>
+                <img src='assets/images/arrow.svg' class="arrow previous" onclick="decPage()" style="cursor: pointer;"></img>
+                    <p class="box-text">box ${multiplier+1}</p>
+                    <img src='assets/images/arrow.svg' class="arrow next" onclick="incPage()" style="cursor: pointer;"></img>
                 </div>
             </div>
         
         `
-        
 
-        for (let index = 0; index < limit; index++) {
+
+        for (let index = multiplier * 30; index < pagelimit; index++) {
+            console.log("INDEX  ====================>", index);
+            console.log("MULTIPLIER ====================>", multiplier);
+            console.log("PAGELIMIT ====================>", pagelimit);
             const element = pokemons[index];
-            if(element){
-                
-                content+=`
-                <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
-                    <img onclick='showCard(${element})' src="${element.image}" height="60" width="60"/>
+            if (element) {
+
+                content += `
+                <div class="box-cont">
+                    <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
+                        <img src="${element.image}" height="60" width="60"/>
+                    </div>
+                    <button id = "x" onclick="deletepokemon(${JSON.stringify(element)})">
+                        <span>&times;</span>
+                    </button>
                 </div>
                 `
-                
-            }else{
-                content+=`
+
+            } else {
+                content += `
                 <div class="item-box">
                 </div>
                 `
@@ -110,9 +149,8 @@ function mostrar() {
 
             console.log(content)
         }
-        pokemonsList.innerHTML=content
+        pokemonsList.innerHTML = content
     };
 }
 
 window.addEventListener("load", init, false);
-
