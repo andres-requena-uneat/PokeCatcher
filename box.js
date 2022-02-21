@@ -79,7 +79,17 @@ function mostrar() {
 
     almacen.onsuccess = function(event) {
         let pokemons = event.target.result
-        let content = ''
+        let content = `
+            <div class="box-header">
+                <div class="box-name">
+                <img src='assets/images/arrow.svg' class="arrow previous"></img>
+                    <p class="box-text">box 1</p>
+                    <img src='assets/images/arrow.svg' class="arrow next"></img>
+                </div>
+            </div>
+        
+        `
+        
 
         for (let index = 0; index < limit; index++) {
             const element = pokemons[index];
