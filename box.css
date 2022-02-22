@@ -101,3 +101,15 @@ body {
 .previous{
     transform: rotate(180deg) translate(0%, 50%);
 }
+
+.card-title{
+    border: none;
+    background-color: var(--yellow);
+}
+/* .card-title:hover{
+    border: 1px solid black;
+} */
+.pencil{
+    height:20px;
+    width:20px;
+}

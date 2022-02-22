@@ -7,25 +7,24 @@ const pokemonsList = document.getElementById("box-list");
 
 const pokemonImage = document.getElementById("card-img-top");
 const pokemonName = document.getElementsByClassName("card-title")[0];
-const pokemonDescription =
-    document.getElementsByClassName("card-description")[0];
+const pokemonDescription = document.getElementsByClassName("card-description")[0];
 const pokemonAbility = document.getElementsByClassName("card-hability")[0];
 const pokemonType = document.getElementsByClassName("card-type")[0];
 
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
-    solicitud.onerror = function(e) {
-        console.log("error: ", e.target.result);
+    solicitud.onerror = function (e) {
+        // console.log("error: ", e.target.result);
     };
 
-    solicitud.onsuccess = function(e) {
+    solicitud.onsuccess = function (e) {
         bd = e.target.result;
         mostrar()
         showCard(null)
     };
 
-    solicitud.onupgradeneeded = function(e) {
+    solicitud.onupgradeneeded = function (e) {
         bd = e.target.result;
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
@@ -61,7 +60,7 @@ function showCard(pokemon = null) {
     if (pokemon) {
         console.log(pokemon.clave)
         pokemonImage.src = pokemon.image
-        pokemonName.textContent = formatFirstLetter(pokemon.clave);
+        pokemonName.value = formatFirstLetter(pokemon.clave);
         pokemonDescription.textContent = pokemon.description;
         pokemonAbility.textContent = formatFirstLetter(pokemon.ability);
         pokemonType.textContent = formatFirstLetter(pokemon.type1);
@@ -161,7 +160,7 @@ function mostrar() {
                 `
             }
 
-            console.log(content)
+            // console.log(content)
         }
         pokemonsList.innerHTML = content
     };
