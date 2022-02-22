@@ -81,7 +81,7 @@ function getPokemonImageChekingIfShiny(shinyChance, data) {
     }
 }
 
-function formatFirstLetter(name) {
+function formatFirstLetter(name) {  
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
@@ -148,9 +148,9 @@ function mostrar() {
                     <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
                         <img src="${element.image}" height="60" width="60"/>
                     </div>
-                    <button id="x" onclick='deletepokemon(${JSON.stringify(element)})'>
-                        <span>&times;</span>
-                    </button>
+                    <div class="x-button" onclick='deletepokemon(${JSON.stringify(element)})'>
+                        <img src="./assets/images/x-button.svg" class="x-image"></img>
+                    </div>
                 </div>
                 `
 
