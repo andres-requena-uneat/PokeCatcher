@@ -97,8 +97,6 @@ function agregarObjeto() {
     var transaccion = bd.transaction(["pokemon"], "readwrite");
     var almacen = transaccion.objectStore("pokemon");
 
-    console.log("Almacenando... " + pokemonName.textContent);
-
     almacen.add({
         clave: pokemonName.textContent,
         image: pokemonImage.src,
