@@ -36,13 +36,13 @@ body {
 .box-pokemon{
     display: flex;
     flex-direction:column;
-    padding: 1rem;
     width: 100%;
 }
 .box-pokemon-content{
     display: flex;
     flex-direction:row;
     justify-content: space-between;
+    margin-top: 10px;
 }
 .box-list{
     display: flex;
