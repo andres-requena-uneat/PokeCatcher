@@ -53,7 +53,7 @@ function setValuesOnHTML(data, shinyChance) {
     pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);
     pokemonImage.alt = getPokemonSpriteChekingIfShiny(shinyChance, data);
     pokemonName.textContent = formatFirstLetter(data.name);
-    pokemonDescription.textContent ="Base Experience: " + data.base_experience;
+    pokemonDescription.textContent = "Base Experience: " + data.base_experience;
     pokemonAbility.textContent =
         "Ability: " + formatFirstLetter(data.abilities[0].ability.name);
     pokemonType.textContent =
@@ -102,6 +102,7 @@ function agregarObjeto() {
     almacen.add({
         clave: pokemonName.textContent,
         image: pokemonImage.src,
+        backgroundImage: pokemonImage.style.backgroundImage,
         sprite: pokemonImage.alt,
         description: pokemonDescription.textContent,
         ability: pokemonAbility.textContent,
