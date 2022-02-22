@@ -123,16 +123,4 @@ function mostrar() {
     };
 }
 
-// function mostrarDatos(e) {
-//     var cursor = e.target.result;
-
-//     // if (cursor) {
-
-//     //     zonadatos.innerHTML += "<div>" + cursor.value.clave + " - " + cursor.value.titulo + " - " + cursor.value.Fecha + "</div>";
-
-//     //     cursor.continue();
-
-//     // }
-// }
-
 window.addEventListener("load", iniciar, false);

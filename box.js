@@ -15,17 +15,17 @@ const pokemonType = document.getElementsByClassName("card-type")[0];
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
-    solicitud.onerror = function (e) {
+    solicitud.onerror = function(e) {
         // console.log("error: ", e.target.result);
     };
 
-    solicitud.onsuccess = function (e) {
+    solicitud.onsuccess = function(e) {
         bd = e.target.result;
         mostrar()
         showCard(null)
     };
 
-    solicitud.onupgradeneeded = function (e) {
+    solicitud.onupgradeneeded = function(e) {
         bd = e.target.result;
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
@@ -66,6 +66,7 @@ function showCard(pokemon = null) {
     if (pokemon) {
         console.log(pokemon.clave)
         pokemonImage.src = pokemon.image
+        pokemonImage.style.backgroundImage = pokemon.backgroundImage
         pokemonName.value = formatFirstLetter(pokemon.clave);
         pokemonDescription.textContent = pokemon.description;
         pokemonAbility.textContent = formatFirstLetter(pokemon.ability);
@@ -73,19 +74,9 @@ function showCard(pokemon = null) {
     } else {
         pokemonImage.src = "assets/" + "no-pokemon.png";
         pokemonName.value = "No pokemon selected";
-        pokemonDescription.textContent = "Base Experience: " + "";;
-        pokemonAbility.textContent =
-            "Ability: " + "";
-        pokemonType.textContent =
-            "Type: " + "";
-    }
-}
-
-function getPokemonImageChekingIfShiny(shinyChance, data) {
-    if (shinyChance == 1) {
-        return data.sprites.other["home"].front_shiny;
-    } else {
-        return data.sprites.other["home"].front_default;
+        pokemonDescription.textContent = "";
+        pokemonAbility.textContent = "";
+        pokemonType.textContent = "";
     }
 }
 
@@ -110,7 +101,11 @@ function rename(pokemon) {
     transaccion.objectStore("pokemon").delete(oldName)
     var almacen = transaccion.objectStore("pokemon").put(pokemon)
     pokemonName.value = pokemon.clave;
-    almacen.onsuccess = mostrar()
+    almacen.onsuccess = function(e) {
+        mostrar()
+    };
+
+
 }
 
 function release(pokemon) {
@@ -123,7 +118,9 @@ function release(pokemon) {
         "Ability: " + "";
     pokemonType.textContent =
         "Type: " + "";
-    almacen.onsuccess = mostrar()
+    almacen.onsuccess = function(e) {
+        mostrar()
+    };
 }
 
 function mostrar() {
@@ -131,10 +128,9 @@ function mostrar() {
     var transaccion = bd.transaction(["pokemon"], "readonly");
     var almacen = transaccion.objectStore("pokemon").getAll();
 
-    almacen.onsuccess = function (event) {
+    almacen.onsuccess = function(event) {
 
         let pokemons = event.target.result
-        if (multiplier >= 1) { }
         let content = `
             <div class="box-header">
                 <div class="box-name">
@@ -146,7 +142,6 @@ function mostrar() {
         
         `
 
-
         for (let index = multiplier * 30; index < pagelimit; index++) {
             const element = pokemons[index];
             if (element) {
@@ -154,7 +149,7 @@ function mostrar() {
                 content += `
                 <div class="box-cont">
                     <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
-                        <img src="${element.image}" height="60" width="60"/>
+                        <img src="${element.sprite}" height="60" width="60"/>
                     </div>
                     <div class="x-button" onclick='deletepokemon(${JSON.stringify(element)})'>
                         <img src="./assets/images/x-button.svg" class="x-image"></img>
@@ -175,15 +170,10 @@ function mostrar() {
         let leftArrow = document.getElementsByClassName("arrow previous")[0];
         if (multiplier == 0) {
             leftArrow.style = "opacity: 0 !important;"
-        }
-        else {
+        } else {
             leftArrow.style = "opacity: 1 !important;"
         }
     };
 }
-
-// function formatFirstLetter(name) {
-//     return name.charAt(0).toUpperCase() + name.slice(1);
-// }
 
 window.addEventListener("load", init, false);
