@@ -14,17 +14,17 @@ const pokemonType = document.getElementsByClassName("card-type")[0];
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
-    solicitud.onerror = function (e) {
+    solicitud.onerror = function(e) {
         // console.log("error: ", e.target.result);
     };
 
-    solicitud.onsuccess = function (e) {
+    solicitud.onsuccess = function(e) {
         bd = e.target.result;
         mostrar()
         showCard(null)
     };
 
-    solicitud.onupgradeneeded = function (e) {
+    solicitud.onupgradeneeded = function(e) {
         bd = e.target.result;
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
@@ -51,8 +51,6 @@ function decPage() {
         pagelimit = multiplier * 30 + 30;
         mostrar();
     }
-
-
 }
 
 function showCard(pokemon = null) {
@@ -66,15 +64,13 @@ function showCard(pokemon = null) {
         pokemonType.textContent = formatFirstLetter(pokemon.type1);
     } else {
         pokemonImage.src = "assets/" + "no-pokemon.png";
-        pokemonName.textContent = "No pokemon selected";
+        pokemonName.value = "No pokemon selected";
         pokemonDescription.textContent = "Base Experience: " + "";;
         pokemonAbility.textContent =
             "Ability: " + "";
         pokemonType.textContent =
             "Type: " + "";
     }
-
-
 }
 
 function getPokemonImageChekingIfShiny(shinyChance, data) {
@@ -97,15 +93,23 @@ function getPokemonTypes(data) {
     }
 }
 
+
+function rename(pokemon) {
+
+    const oldName = pokemon.clave
+    pokemon.clave = formatFirstLetter(pokemonName.value);
+    var transaccion = bd.transaction(["pokemon"], "readwrite")
+    transaccion.objectStore("pokemon").delete(oldName)
+    var almacen = transaccion.objectStore("pokemon").put(pokemon)
+    pokemonName.value = pokemon.clave;
+    almacen.onsuccess = mostrar()
+}
+
 function release(pokemon) {
-    console.log(pokemon)
-    console.log("KEY==================>", pokemon.clave)
     var transaccion = bd.transaction(["pokemon"], "readwrite")
     var almacen = transaccion.objectStore("pokemon").delete(pokemon.clave)
-    console.log("almacen======================>", almacen);
-    console.log("Deleted");
     pokemonImage.src = "assets/" + "no-pokemon.png";
-    pokemonName.textContent = "No pokemon selected";
+    pokemonName.value = "No pokemon selected";
     pokemonDescription.textContent = "Base Experience: " + "";
     pokemonAbility.textContent =
         "Ability: " + "";
@@ -136,9 +140,6 @@ function mostrar() {
 
 
         for (let index = multiplier * 30; index < pagelimit; index++) {
-            console.log("INDEX  ====================>", index);
-            console.log("MULTIPLIER ====================>", multiplier);
-            console.log("PAGELIMIT ====================>", pagelimit);
             const element = pokemons[index];
             if (element) {
 
@@ -160,10 +161,13 @@ function mostrar() {
                 `
             }
 
-            // console.log(content)
         }
         pokemonsList.innerHTML = content
     };
 }
+
+// function formatFirstLetter(name) {
+//     return name.charAt(0).toUpperCase() + name.slice(1);
+// }
 
 window.addEventListener("load", init, false);
