@@ -150,7 +150,6 @@ function mostrar() {
                     <div class="x-button" onclick='deletepokemon(${JSON.stringify(element)})'>
                         <img src="./assets/images/x-button.svg" class="x-image"></img>
                     </div>
-                
                 </div>
                 `
 
