@@ -124,6 +124,10 @@ body {
 .x-image{
     width: 64px;
     height: 64px;
+    opacity:0;
+}
+.x-image:hover{
+    opacity:1;
 }
 .box-cont{
     height: 100px;
