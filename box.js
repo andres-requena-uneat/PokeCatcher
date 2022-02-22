@@ -11,6 +11,7 @@ const pokemonDescription = document.getElementsByClassName("card-description")[0
 const pokemonAbility = document.getElementsByClassName("card-hability")[0];
 const pokemonType = document.getElementsByClassName("card-type")[0];
 
+
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
@@ -43,6 +44,14 @@ function incPage() {
     pagelimit = multiplier * 30 + 30;
     mostrar();
 
+    let leftArrow = document.getElementsByClassName("arrow previous")[0];
+    if(multiplier == 0){
+        leftArrow.style = "opacity: 0;"
+    }
+    else{
+        leftArrow.style = "opacity: 1;"
+    }
+
 }
 
 function decPage() {
@@ -52,10 +61,19 @@ function decPage() {
         mostrar();
     }
 
+    let leftArrow = document.getElementsByClassName("arrow previous")[0];
+    if(multiplier == 0){
+        leftArrow.style = "opacity: 0;"
+    }
+    else{
+        leftArrow.style = "opacity: 1;"
+    }
+
 
 }
 
 function showCard(pokemon = null) {
+
     pokemonObject = pokemon;
     if (pokemon) {
         console.log(pokemon.clave)
