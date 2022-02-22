@@ -1,5 +1,5 @@
 var bd;
-
+let pokemonObject = {}
 let multiplier = 0;
 let pagelimit = multiplier + 30;
 const pokemonsList = document.getElementById("box-list");
@@ -47,13 +47,17 @@ function incPage() {
 }
 
 function decPage() {
-    multiplier--;
-    pagelimit = multiplier * 30 + 30;
-    mostrar();
+    if (multiplier >= 1) {
+        multiplier--;
+        pagelimit = multiplier * 30 + 30;
+        mostrar();
+    }
+
 
 }
 
 function showCard(pokemon = null) {
+    pokemonObject = pokemon;
     if (pokemon) {
         console.log(pokemon.clave)
         pokemonImage.src = pokemon.image
@@ -64,11 +68,11 @@ function showCard(pokemon = null) {
     } else {
         pokemonImage.src = "assets/" + "no-pokemon.png";
         pokemonName.textContent = "No pokemon selected";
-        pokemonDescription.textContent = "Base Experience: " + "No pokemon selected";;
+        pokemonDescription.textContent = "Base Experience: " + "";;
         pokemonAbility.textContent =
-            "Ability: " + "No pokemon selected";
+            "Ability: " + "";
         pokemonType.textContent =
-            "Type: " + "No pokemon selected";
+            "Type: " + "";
     }
 
 
@@ -96,10 +100,19 @@ function getPokemonTypes(data) {
 
 function release(pokemon) {
     console.log(pokemon)
+    console.log("KEY==================>", pokemon.clave)
     var transaccion = bd.transaction(["pokemon"], "readwrite")
     var almacen = transaccion.objectStore("pokemon").delete(pokemon.clave)
+    console.log("almacen======================>", almacen);
     console.log("Deleted");
-    mostrar()
+    pokemonImage.src = "assets/" + "no-pokemon.png";
+    pokemonName.textContent = "No pokemon selected";
+    pokemonDescription.textContent = "Base Experience: " + "";
+    pokemonAbility.textContent =
+        "Ability: " + "";
+    pokemonType.textContent =
+        "Type: " + "";
+    almacen.onsuccess = mostrar()
 }
 
 function mostrar() {
@@ -110,6 +123,7 @@ function mostrar() {
     almacen.onsuccess = function(event) {
 
         let pokemons = event.target.result
+        if (multiplier >= 1) {}
         let content = `
             <div class="box-header">
                 <div class="box-name">
@@ -134,7 +148,7 @@ function mostrar() {
                     <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
                         <img src="${element.image}" height="60" width="60"/>
                     </div>
-                    <button id = "x" onclick="deletepokemon(${JSON.stringify(element)})">
+                    <button id="x" onclick='deletepokemon(${JSON.stringify(element)})'>
                         <span>&times;</span>
                     </button>
                 </div>
