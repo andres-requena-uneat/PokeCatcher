@@ -114,9 +114,16 @@ body {
     width:20px;
 }
 .x-button{
-    width: 64px;
-    height: 64px;
+    width: 32px;
+    height: 32px;
     position:relative;
     top:-120px;
     left:55px;
+}
+.x-image{
+    width: 64px;
+    height: 64px;
+}
+.box-cont{
+    height: 100px;
 }

@@ -147,8 +147,8 @@ function mostrar() {
                     <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
                         <img src="${element.image}" height="60" width="60"/>
                     </div>
-                    <div onclick='deletepokemon(${JSON.stringify(element)})'>
-                        <img src="./assets/images/x-button.svg" class="x-button"></img>
+                    <div class="x-button" onclick='deletepokemon(${JSON.stringify(element)})'>
+                        <img src="./assets/images/x-button.svg" class="x-image"></img>
                     </div>
                 
                 </div>
