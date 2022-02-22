@@ -42,7 +42,6 @@ function getShowData(url, shinyChance) {
         })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
             setValuesOnHTML(data, shinyChance);
         });
 }
@@ -116,7 +115,6 @@ function mostrar() {
     var almacen = transaccion.objectStore("pokemon").getAll();
 
     almacen.onsuccess = function(event) {
-        console.log(event.target.result);
         getNewPokemon();
     };
 }
