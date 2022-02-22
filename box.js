@@ -1,28 +1,26 @@
 var bd;
-let pokemonObject = {}
+let pokemonObject = {};
 let multiplier = 0;
 let pagelimit = multiplier + 30;
 const pokemonsList = document.getElementById("box-list");
-
-
 const pokemonImage = document.getElementById("card-img-top");
 const pokemonName = document.getElementsByClassName("card-title")[0];
-const pokemonDescription = document.getElementsByClassName("card-description")[0];
+const pokemonDescription =
+    document.getElementsByClassName("card-description")[0];
 const pokemonAbility = document.getElementsByClassName("card-hability")[0];
 const pokemonType = document.getElementsByClassName("card-type")[0];
-
 
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
     solicitud.onerror = function(e) {
-        // console.log("error: ", e.target.result);
+        console.error("error: ", e.target.result);
     };
 
     solicitud.onsuccess = function(e) {
         bd = e.target.result;
-        mostrar()
-        showCard(null)
+        mostrar();
+        showCard(null);
     };
 
     solicitud.onupgradeneeded = function(e) {
@@ -32,18 +30,17 @@ function init() {
 }
 
 function deletepokemon(e) {
-    release(e)
+    release(e);
 }
 
 function clicked(e) {
-    showCard(e)
+    showCard(e);
 }
 
 function incPage() {
     multiplier++;
     pagelimit = multiplier * 30 + 30;
     mostrar();
-
 }
 
 function decPage() {
@@ -52,21 +49,13 @@ function decPage() {
         pagelimit = multiplier * 30 + 30;
         mostrar();
     }
-
-
-
-
-
-
 }
 
 function showCard(pokemon = null) {
-
     pokemonObject = pokemon;
     if (pokemon) {
-        console.log(pokemon.clave)
-        pokemonImage.src = pokemon.image
-        pokemonImage.style.backgroundImage = pokemon.backgroundImage
+        pokemonImage.src = pokemon.image;
+        pokemonImage.style.backgroundImage = pokemon.backgroundImage;
         pokemonName.value = formatFirstLetter(pokemon.clave);
         pokemonDescription.textContent = pokemon.description;
         pokemonAbility.textContent = formatFirstLetter(pokemon.ability);
@@ -92,45 +81,37 @@ function getPokemonTypes(data) {
     }
 }
 
-
 function rename(pokemon) {
-
-    const oldName = pokemon.clave
+    const oldName = pokemon.clave;
     pokemon.clave = formatFirstLetter(pokemonName.value);
-    var transaccion = bd.transaction(["pokemon"], "readwrite")
-    transaccion.objectStore("pokemon").delete(oldName)
-    var almacen = transaccion.objectStore("pokemon").put(pokemon)
+    var transaccion = bd.transaction(["pokemon"], "readwrite");
+    transaccion.objectStore("pokemon").delete(oldName);
+    var almacen = transaccion.objectStore("pokemon").put(pokemon);
     pokemonName.value = pokemon.clave;
     almacen.onsuccess = function(e) {
-        mostrar()
+        mostrar();
     };
-
-
 }
 
 function release(pokemon) {
-    var transaccion = bd.transaction(["pokemon"], "readwrite")
-    var almacen = transaccion.objectStore("pokemon").delete(pokemon.clave)
+    var transaccion = bd.transaction(["pokemon"], "readwrite");
+    var almacen = transaccion.objectStore("pokemon").delete(pokemon.clave);
     pokemonImage.src = "assets/" + "no-pokemon.png";
     pokemonName.value = "No pokemon selected";
     pokemonDescription.textContent = "Base Experience: " + "";
-    pokemonAbility.textContent =
-        "Ability: " + "";
-    pokemonType.textContent =
-        "Type: " + "";
+    pokemonAbility.textContent = "Ability: " + "";
+    pokemonType.textContent = "Type: " + "";
     almacen.onsuccess = function(e) {
-        mostrar()
+        mostrar();
     };
 }
 
 function mostrar() {
-
     var transaccion = bd.transaction(["pokemon"], "readonly");
     var almacen = transaccion.objectStore("pokemon").getAll();
 
     almacen.onsuccess = function(event) {
-
-        let pokemons = event.target.result
+        let pokemons = event.target.result;
         let content = `
             <div class="box-header">
                 <div class="box-name">
@@ -140,38 +121,39 @@ function mostrar() {
                 </div>
             </div>
         
-        `
+        `;
 
         for (let index = multiplier * 30; index < pagelimit; index++) {
             const element = pokemons[index];
             if (element) {
-
                 content += `
                 <div class="box-cont">
-                    <div onclick='clicked(${JSON.stringify(element)})' class="item-box">
+                    <div onclick='clicked(${JSON.stringify(
+                      element
+                    )})' class="item-box">
                         <img src="${element.sprite}" height="60" width="60"/>
                     </div>
-                    <div class="x-button" onclick='deletepokemon(${JSON.stringify(element)})'>
+                    <div class="x-button" onclick='deletepokemon(${JSON.stringify(
+                      element
+                    )})'>
                         <img src="./assets/images/x-button.svg" class="x-image"></img>
                     </div>
                 </div>
-                `
-
+                `;
             } else {
                 content += `
                 <div class="item-box">
                 </div>
-                `
+                `;
             }
-
         }
-        pokemonsList.innerHTML = content
+        pokemonsList.innerHTML = content;
 
         let leftArrow = document.getElementsByClassName("arrow previous")[0];
         if (multiplier == 0) {
-            leftArrow.style = "opacity: 0 !important;"
+            leftArrow.style = "opacity: 0 !important;";
         } else {
-            leftArrow.style = "opacity: 1 !important;"
+            leftArrow.style = "opacity: 1 !important;";
         }
     };
 }
