@@ -15,17 +15,17 @@ const pokemonType = document.getElementsByClassName("card-type")[0];
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
-    solicitud.onerror = function(e) {
+    solicitud.onerror = function (e) {
         // console.log("error: ", e.target.result);
     };
 
-    solicitud.onsuccess = function(e) {
+    solicitud.onsuccess = function (e) {
         bd = e.target.result;
         mostrar()
         showCard(null)
     };
 
-    solicitud.onupgradeneeded = function(e) {
+    solicitud.onupgradeneeded = function (e) {
         bd = e.target.result;
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
@@ -44,14 +44,6 @@ function incPage() {
     pagelimit = multiplier * 30 + 30;
     mostrar();
 
-    let leftArrow = document.getElementsByClassName("arrow previous")[0];
-    if(multiplier == 0){
-        leftArrow.style = "opacity: 0;"
-    }
-    else{
-        leftArrow.style = "opacity: 1;"
-    }
-
 }
 
 function decPage() {
@@ -61,13 +53,9 @@ function decPage() {
         mostrar();
     }
 
-    let leftArrow = document.getElementsByClassName("arrow previous")[0];
-    if(multiplier == 0){
-        leftArrow.style = "opacity: 0;"
-    }
-    else{
-        leftArrow.style = "opacity: 1;"
-    }
+
+
+
 
 
 }
@@ -101,7 +89,7 @@ function getPokemonImageChekingIfShiny(shinyChance, data) {
     }
 }
 
-function formatFirstLetter(name) {  
+function formatFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
@@ -143,15 +131,15 @@ function mostrar() {
     var transaccion = bd.transaction(["pokemon"], "readonly");
     var almacen = transaccion.objectStore("pokemon").getAll();
 
-    almacen.onsuccess = function(event) {
+    almacen.onsuccess = function (event) {
 
         let pokemons = event.target.result
-        if (multiplier >= 1) {}
+        if (multiplier >= 1) { }
         let content = `
             <div class="box-header">
                 <div class="box-name">
                 <img src='assets/images/arrow.svg' class="arrow previous" onclick="decPage()" style="cursor: pointer;"></img>
-                    <p class="box-text">box ${multiplier+1}</p>
+                    <p class="box-text">box ${multiplier + 1}</p>
                     <img src='assets/images/arrow.svg' class="arrow next" onclick="incPage()" style="cursor: pointer;"></img>
                 </div>
             </div>
@@ -183,6 +171,14 @@ function mostrar() {
 
         }
         pokemonsList.innerHTML = content
+
+        let leftArrow = document.getElementsByClassName("arrow previous")[0];
+        if (multiplier == 0) {
+            leftArrow.style = "opacity: 0 !important;"
+        }
+        else {
+            leftArrow.style = "opacity: 1 !important;"
+        }
     };
 }
 
