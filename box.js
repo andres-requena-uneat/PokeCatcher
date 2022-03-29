@@ -13,17 +13,17 @@ const pokemonType = document.getElementsByClassName("card-type")[0];
 function init() {
     var solicitud = indexedDB.open("PokemonDatabase");
 
-    solicitud.onerror = function(e) {
+    solicitud.onerror = function (e) {
         console.error("error: ", e.target.result);
     };
 
-    solicitud.onsuccess = function(e) {
+    solicitud.onsuccess = function (e) {
         bd = e.target.result;
         mostrar();
         showCard(null);
     };
 
-    solicitud.onupgradeneeded = function(e) {
+    solicitud.onupgradeneeded = function (e) {
         bd = e.target.result;
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
@@ -88,12 +88,18 @@ function rename(pokemon) {
     transaccion.objectStore("pokemon").delete(oldName);
     var almacen = transaccion.objectStore("pokemon").put(pokemon);
     pokemonName.value = pokemon.clave;
-    almacen.onsuccess = function(e) {
+    almacen.onsuccess = function (e) {
         mostrar();
     };
 }
 
 function release(pokemon) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", `http://172.27.65.124:3000/pokemon/${pokemon["_id"]}` , false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+
     var transaccion = bd.transaction(["pokemon"], "readwrite");
     var almacen = transaccion.objectStore("pokemon").delete(pokemon.clave);
     pokemonImage.src = "assets/" + "no-pokemon.png";
@@ -101,7 +107,7 @@ function release(pokemon) {
     pokemonDescription.textContent = "Base Experience: " + "";
     pokemonAbility.textContent = "Ability: " + "";
     pokemonType.textContent = "Type: " + "";
-    almacen.onsuccess = function(e) {
+    almacen.onsuccess = function (e) {
         mostrar();
     };
 }
@@ -109,9 +115,17 @@ function release(pokemon) {
 function mostrar() {
     var transaccion = bd.transaction(["pokemon"], "readonly");
     var almacen = transaccion.objectStore("pokemon").getAll();
+    
+    almacen.onsuccess = async function (event) {
+    var pokeData =await fetch('http://172.27.65.124:3000/pokemon')
+        .then(response => response.json())
+        .then(data => {return data});
 
-    almacen.onsuccess = function(event) {
-        let pokemons = event.target.result;
+    // console.log(pokeData);
+
+    
+        let pokemons =  pokeData //event.target.result;
+
         let content = `
             <div class="box-header">
                 <div class="box-name">
@@ -129,13 +143,13 @@ function mostrar() {
                 content += `
                 <div class="box-cont">
                     <div onclick='clicked(${JSON.stringify(
-                      element
-                    )})' class="item-box">
+                    element
+                )})' class="item-box">
                         <img src="${element.sprite}" height="60" width="60"/>
                     </div>
                     <div class="x-button" onclick='deletepokemon(${JSON.stringify(
-                      element
-                    )})'>
+                    element
+                )})'>
                         <img src="./assets/images/x-button.svg" class="x-image"></img>
                     </div>
                 </div>

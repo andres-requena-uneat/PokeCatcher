@@ -14,15 +14,15 @@ function iniciar() {
 
     var solicitud = indexedDB.open("PokemonDatabase");
 
-    solicitud.onerror = function(e) {
+    solicitud.onerror = function (e) {
         console.log("error: ", e.target.result);
     };
 
-    solicitud.onsuccess = function(e) {
+    solicitud.onsuccess = function (e) {
         bd = e.target.result;
     };
 
-    solicitud.onupgradeneeded = function(e) {
+    solicitud.onupgradeneeded = function (e) {
         bd = e.target.result;
         bd.createObjectStore("pokemon", { keyPath: "clave" });
     };
@@ -38,8 +38,8 @@ const getNewPokemon = () => {
 
 function getShowData(url, shinyChance) {
     fetch(url, {
-            method: "get",
-        })
+        method: "get",
+    })
         .then((response) => response.json())
         .then((data) => {
             setValuesOnHTML(data, shinyChance);
@@ -48,7 +48,7 @@ function getShowData(url, shinyChance) {
 
 function setValuesOnHTML(data, shinyChance) {
     pokemonImage.style.backgroundImage =
-        "url(assets/backgrounds/" + data.types[0].type.name + ".jpg)";
+        'url(assets/backgrounds/' + data.types[0].type.name + '.jpg)';
     pokemonImage.src = getPokemonImageChekingIfShiny(shinyChance, data);
     pokemonImage.alt = getPokemonSpriteChekingIfShiny(shinyChance, data);
     pokemonName.textContent = formatFirstLetter(data.name);
@@ -92,9 +92,27 @@ function getRandomInt(range) {
     return Math.floor(Math.random() * range + 1);
 }
 
+
+
 function agregarObjeto() {
     var transaccion = bd.transaction(["pokemon"], "readwrite");
     var almacen = transaccion.objectStore("pokemon");
+
+    var data = {
+        clave: pokemonName.textContent,
+        image: pokemonImage.src,
+        backgroundImage: pokemonImage.style.backgroundImage,
+        sprite: pokemonImage.alt,
+        description: pokemonDescription.textContent,
+        ability: pokemonAbility.textContent,
+        type1: pokemonType.textContent,
+        type2: pokemonType2.textContent,
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://172.27.65.124:3000/pokemon" , false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
 
     almacen.add({
         clave: pokemonName.textContent,
@@ -114,7 +132,7 @@ function mostrar() {
     var transaccion = bd.transaction(["pokemon"], "readonly");
     var almacen = transaccion.objectStore("pokemon").getAll();
 
-    almacen.onsuccess = function(event) {
+    almacen.onsuccess = function (event) {
         getNewPokemon();
     };
 }
