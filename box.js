@@ -117,7 +117,8 @@ function mostrar() {
     var almacen = transaccion.objectStore("pokemon").getAll();
     
     almacen.onsuccess = async function (event) {
-    var pokeData =await fetch('http://172.27.65.124:3000/pokemon')
+    var ruta = "http://172.27.65.124:3000/pokemon"
+    var pokeData =await fetch(ruta)
         .then(response => response.json())
         .then(data => {return data});
 
