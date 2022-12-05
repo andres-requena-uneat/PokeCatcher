@@ -96,7 +96,7 @@ function rename(pokemon) {
 function release(pokemon) {
 
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", `http://172.27.65.124:3000/pokemon/${pokemon["_id"]}` , false);
+    xhr.open("DELETE", `http://127.0.0.1:44348/api/pokemon/${pokemon["_id"]}` , false);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send();
 
@@ -117,7 +117,7 @@ function mostrar() {
     var almacen = transaccion.objectStore("pokemon").getAll();
     
     almacen.onsuccess = async function (event) {
-    var ruta = "http://172.27.65.124:3000/pokemon"
+    var ruta = "http://127.0.0.1:44348/api/pokemon"
     var pokeData =await fetch(ruta)
         .then(response => response.json())
         .then(data => {return data});
