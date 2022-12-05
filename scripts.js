@@ -1,3 +1,9 @@
+
+const _PORT = "44834";
+const _ROUTE = `http://127.0.0.1:${_PORT}/api/pokemon/`
+const _POKEAPI = "https://pokeapi.co/api/v2/pokemon/"
+
+
 var bd;
 let lvl = 1;
 
@@ -32,7 +38,7 @@ const getNewPokemon = () => {
     const randomNumber = getRandomInt(898);
     const shinyChance = getRandomInt(4096);
 
-    const url = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
+    const url = `${_POKEAPI}${randomNumber}`;
     getShowData(url, shinyChance);
 };
 
@@ -110,7 +116,7 @@ function agregarObjeto() {
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:44348/api/pokemon" , false);
+    xhr.open("POST", _ROUTE , false);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 

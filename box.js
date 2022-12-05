@@ -1,3 +1,8 @@
+
+const _PORT = "44834";
+const _ROUTE = `http://127.0.0.1:${_PORT}/api/pokemon/`
+const _POKEAPI = "https://pokeapi.co/api/v2/pokemon/"
+
 var bd;
 let pokemonObject = {};
 let multiplier = 0;
@@ -96,7 +101,7 @@ function rename(pokemon) {
 function release(pokemon) {
 
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", `http://127.0.0.1:44348/api/pokemon/${pokemon["_id"]}` , false);
+    xhr.open("DELETE", `${_ROUTE}${pokemon["_id"]}` , false);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send();
 
@@ -117,12 +122,9 @@ function mostrar() {
     var almacen = transaccion.objectStore("pokemon").getAll();
     
     almacen.onsuccess = async function (event) {
-    var ruta = "http://127.0.0.1:44348/api/pokemon"
-    var pokeData =await fetch(ruta)
+    var pokeData =await fetch(_ROUTE)
         .then(response => response.json())
         .then(data => {return data});
-
-    // console.log(pokeData);
 
     
         let pokemons =  pokeData //event.target.result;
